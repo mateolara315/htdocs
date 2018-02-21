@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>HOla mundo</title>
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
+</head>
+<body>
+
+	<script >  
+
+ setInterval(getter, 500);
+
+
+		    function getter(){ 
+      			var infodb = function () {
+          	var temporal = null;
+         	 $.ajax({
+              'async': false,
+              'type': "POST",
+              'global': false,
+              'dataType': 'html',
+              'url': "get.php",
+              'success': function (data) {
+                  temporal = data;
+              }
+          });
+          return temporal;
+      }();
+
+      if (infodb==null) {
+        infodb="";
+
+      }
+    var longElement = document.getElementById("test"); // Voy a mostrar un texto en donde esté el id "Latitud"
+      longElement.textContent =  infodb; 
+
+    }
+
+
+		
+
+	</script>
+
+<h1 id="test">Hola mundo</h1>
+<p ></p>
+
+</body>
+</html>
