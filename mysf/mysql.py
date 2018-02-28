@@ -1,3 +1,6 @@
+from datetime import datetime, date, time, timedelta
+import calendar
+
 import socket
 import pymysql.cursors
 import struct
@@ -25,10 +28,21 @@ def main():
 		raw_data,addr = conn.recvfrom(65536)
 		data = raw_data.decode("utf-8")
 		if data[0:4] == ">REV":
-			print("EL DATO QUE LLEGO "+str(data))
+			print("EL DATO QUE LLEGO "+data)
 			lat = (data[16:19]+"."+data[19:24])
 			lon = (data[24:28] + "." + data[28:33])
-			hora = "NO YET"
+			fecha = int(float(data[6:10]))
+			fecha = date(1980, 1, 6) + timedelta(weeks=fecha) #ojo es 6 ver problema Y correjir error
+			fecha = fecha.strftime('%m/%d/%Y')
+			segundos = int(float(data[11:16]) - (5*60*60) )#GMZ -5
+
+			H = int(segundos/(60*60))
+			M = int((segundos/60)-(H*60))
+			S = int(segundos - (H*60*60) - (M*60))
+
+		
+			hora = fecha+"   "+str(H)+":"+str(M)+":"+str(S)
+			#hora = "NO YET"
 
 			base = (lat, lon, hora)
 
